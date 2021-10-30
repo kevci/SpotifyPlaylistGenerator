@@ -13,7 +13,6 @@ conn = sqlite3.connect('test1.db')
 cursor = conn.cursor()
 
 offset = 0
-selectedTrackIds = set()
 
 while True:
     response = sp.playlist_items('spotify:playlist:1vlsJoAKVg4ZIrDNAe2OFa', offset=offset, fields='items.track.id,items.track.name,items.track.artists.name,items.track.album.name,items.track.duration_ms,total', additional_types=['track'])
