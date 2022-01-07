@@ -49,7 +49,7 @@ if args.artists:
             joinedTrackIds = ' '.join(selectedTrackIds)
         else:
             joinedTrackIds = ''
-        cur.execute('select track_id from vtest1 where artists_names match (:artists_names) and track_id not in (:selected_track_ids) order by rank limit :num_for_each_artist', {'artists_names': args.artists[i], 'selected_track_ids': joinedTrackIds, 'num_for_each_artist': str(num_for_each_artist)})
+        cur.execute('select track_id from vtest1 where artists_names match (:artists_names) and track_id not in (:selected_track_ids) order by random(), rank limit :num_for_each_artist', {'artists_names': args.artists[i], 'selected_track_ids': joinedTrackIds, 'num_for_each_artist': str(num_for_each_artist)})
         #cur.execute(f'''select track_id from vtest1 where artists_names match '{args.artists[i]}' and track_id not in ({' '.join(selectedTrackIds)}) order by rank limit {num_for_each_artist}''')
         #cur.execute(f'select track_id from vtest1 where track_id not in ({joinedTrackIds}) limit {num_for_each_artist}')
         results = cur.fetchall()
@@ -69,7 +69,7 @@ for _ in range(left_over):
 randomizedSelectedTrackIds = random.sample(selectedTrackIds, len(selectedTrackIds))
 
 for track in randomizedSelectedTrackIds:
-    sp.playlist_replace_items('1q5hkH972LHsr3c4Z5sPDx', randomizedSelectedTrackIds)
+    sp.playlist_replace_items(os.getenv('DEFAULT_PLAYLIST_ID'), randomizedSelectedTrackIds)
 
 conn.commit()
 conn.close()
